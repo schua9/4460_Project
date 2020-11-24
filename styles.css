@@ -1,9 +1,46 @@
-.bar {
-  fill: steelblue;
+@import url('https://fonts.googleapis.com/css?family=Architects+Daughter');
+body {
+  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #666;
+  background: #fafafa url(../images/body-bg.jpg) 0 0 repeat;
 }
-.bar:hover {
-  fill: brown;
+
+header {
+  color: #555;
+  padding-top: 20px 0;
+  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+  font-size: 36px;
+  font-weight: 6550;
+  border-bottom: solid 1px #275da1;
 }
+
+h1 {
+  font-weight: 400;
+  margin: 10px 0 0 0;
+}
+
+table {
+  width: 100%;
+  border: 1px solid #ebebeb;
+}
+
+th {
+  font-weight: 500;
+}
+
+td {
+  font-weight: 300;
+  text-align: center;
+  border: 1px solid #ebebeb;
+}
+
+form {
+  padding: 20px;
+  background: #f2f2f2;
+}
+
 .axis {
   font: 10px sans-serif;
 }

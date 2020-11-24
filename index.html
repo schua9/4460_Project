@@ -3,34 +3,69 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Starbucks Drinks</title>
-	<!-- Always include D3 first. -->
-	<script src="http://d3js.org/d3.v4.min.js"></script>
-	<!-- Include main.js, which is where all our code lives -->
-	<script src="main.js"></script>
-	<!-- Include any styles we want to add to our page -->
 	<link rel="stylesheet" href="styles.css">
 </head>
 <body>
+	<header>Starbucks Drinks</header>
 	<h1>ScatterPlot</h1>
-	<!-- Our graph will be added inside this divider element -->
-	<div id="graph"></div>
-	<form>
-		X-Axis <select id="color" name="color">
-			<option value="red">Red</option>
-			<option value="orange">Orange</option>
-			<option value="yellow">Yellow</option>
-			<option value="green">Green</option>
-			<option value="blue">Blue</option>
-			<option value="purple">Purple</option>
-		  </select>	
-		Y-Axis <select id="color" name="color">
-			<option value="red">Red</option>
-			<option value="orange">Orange</option>
-			<option value="yellow">Yellow</option>
-			<option value="green">Green</option>
-			<option value="blue">Blue</option>
-			<option value="purple">Purple</option>
-		  </select>			  
-	</form>
+	<div style="display: block;">
+		<div id="scatterplot" style="display: inline-flex;">
+			<svg width="500" height="500" style="border: 1px solid #777;">
+			</svg>
+			<form style="display: block;">
+				X-Axis <select id="color" name="color">
+					<option value="red">Red</option>
+					<option value="orange">Orange</option>
+					<option value="yellow">Yellow</option>
+					<option value="green">Green</option>
+					<option value="blue">Blue</option>
+					<option value="purple">Purple</option>
+				</select>	
+			</br>
+				Y-Axis <select id="color" name="color">
+					<option value="red">Red</option>
+					<option value="orange">Orange</option>
+					<option value="yellow">Yellow</option>
+					<option value="green">Green</option>
+					<option value="blue">Blue</option>
+					<option value="purple">Purple</option>
+				</select>			  
+			</form>
+		</div>
+
+		<h1>Radar Plot</h1>
+		<div id="radar plot" style="display: inline-flex;">
+			<svg width="500" height="500" style="border: 1px solid #777;">
+			</svg>
+			<form style="display: block;">
+				X-Axis <select id="color" name="color">
+					<option value="red">Red</option>
+					<option value="orange">Orange</option>
+					<option value="yellow">Yellow</option>
+					<option value="green">Green</option>
+					<option value="blue">Blue</option>
+					<option value="purple">Purple</option>
+				</select>	
+			</br>
+				Y-Axis <select id="color" name="color">
+					<option value="red">Red</option>
+					<option value="orange">Orange</option>
+					<option value="yellow">Yellow</option>
+					<option value="green">Green</option>
+					<option value="blue">Blue</option>
+					<option value="purple">Purple</option>
+				</select>			  
+			</form>
+		</div>
+	</div>
 </body>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="./js/scatterplot.js"></script>
+<script src="./js/radarplot.js"></script>
+
+</br>
+<hr />
+<footer>
+	© Joseph Meredith, Kimberly Do, Sabrina Chua, Yujia Gao
+</footer>
 </html>
