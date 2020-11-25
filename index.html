@@ -4,13 +4,15 @@
 	<meta charset="UTF-8">
 	<title>Starbucks Drinks</title>
 	<link rel="stylesheet" href="styles.css">
+	<!-- D3.js -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
 </head>
 <body>
 	<header>Starbucks Drinks</header>
 	<h1>ScatterPlot</h1>
 	<div style="display: block;">
 		<div id="scatterplot" style="display: inline-flex;">
-			<svg width="500" height="500" style="border: 1px solid #777;">
+			<svg width="700" height="700" style="border: 1px solid #777;">
 			</svg>
 			<form style="display: block;">
 				X-Axis <select id="color" name="color">
@@ -34,8 +36,8 @@
 		</div>
 
 		<h1>Radar Plot</h1>
-		<div id="radar plot" style="display: inline-flex;">
-			<svg width="500" height="500" style="border: 1px solid #777;">
+		<div class="radarChart" style="display: inline-flex;">
+			<!-- <svg width="700" height="700" style="border: 1px solid #777;"> -->
 			</svg>
 			<form style="display: block;">
 				X-Axis <select id="color" name="color">
@@ -58,6 +60,75 @@
 			</form>
 		</div>
 	</div>
+	<!-- <div class="radarChart"></div> -->
+	<script src="./js/radarplot.js"></script>	
+		<script>
+      
+      /* Radar chart design created by Nadieh Bremer - VisualCinnamon.com */
+      
+			////////////////////////////////////////////////////////////// 
+			//////////////////////// Set-Up ////////////////////////////// 
+			////////////////////////////////////////////////////////////// 
+
+			var margin = {top: 100, right: 100, bottom: 100, left: 100},
+				width = Math.min(700, window.innerWidth - 10) - margin.left - margin.right,
+				height = Math.min(width, window.innerHeight - margin.top - margin.bottom - 20);
+					
+			////////////////////////////////////////////////////////////// 
+			////////////////////////// Data ////////////////////////////// 
+			////////////////////////////////////////////////////////////// 
+
+			var data = [];
+			var categories = [' Total Fat (g)', ' Protein (g) ', ' Sugars (g)']
+			// ' Total Carbohydrates (g) '
+
+			// Hey Joseph, currently I'm parsing all the csv rows as the desired format. I think after you finish your part, we should be able to pass in just an array of drinks that are needed to be displayed and parse them. 
+			// So the dropdown should have a mechanism of parsing the drink name that the user selects into the index, which we then use to extract the actual rows themselves into data processing? Let me know when if what I said does not make sense. 
+
+			// TODO: Is there a way to do different scale for each axis?
+			d3.csv('starbucksdrinks.csv', function(csvData) {
+				csvData.forEach(
+					function(d) {
+						d.Calories = +d.Calories;
+						d['Caffeine (mg)'] = +d['Caffeine (mg)'];
+						d[' Sugars (g)'] = +d[' Sugars (g)'];
+						d[' Total Fat (g)'] = +d[' Total Fat (g)'];
+						d[' Protein (g) '] = +d[' Protein (g) '];
+						d[' Total Carbohydrates (g) '] = +d[' Total Carbohydrates (g) '];
+						var one_data = []
+						for (var i = 0; i < categories.length; i++) {
+							var p = {axis: categories[i].trim(), value: d[categories[i]]};
+							one_data.push(p);
+						}
+						data.push(one_data);
+					}
+				);
+
+				console.log(csvData[0]);
+
+				////////////////////////////////////////////////////////////// 
+				//////////////////// Draw the Chart ////////////////////////// 
+				////////////////////////////////////////////////////////////// 
+
+				var color = d3.scale.ordinal()
+					.range(["#EDC951","#CC333F","#00A0B0"]);
+					
+				var radarChartOptions = {
+				w: width,
+				h: height,
+				margin: margin,
+				maxValue: 0.5,
+				levels: 5,
+				roundStrokes: true,
+				color: color
+				};
+				//Call function to draw the Radar chart
+				console.log(data.slice(0,3));
+				RadarChart(".radarChart", data.slice(0,3), radarChartOptions);
+
+			});
+			
+		</script>
 </body>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="./js/scatterplot.js"></script>

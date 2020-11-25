@@ -4,7 +4,7 @@ body {
   font-size: 15px;
   line-height: 1.5;
   color: #666;
-  background: #fafafa url(../images/body-bg.jpg) 0 0 repeat;
+  /* background: #fafafa url(../images/body-bg.jpg) 0 0 repeat; */
 }
 
 header {
