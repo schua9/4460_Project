@@ -48,6 +48,7 @@ function RadarChart(id, data, options) {
 		}
 	}
 	console.log(maxValues);
+	var maxArray = [3.5, 10, 75, 100, 120];
 
 	var maxValue = Math.max(cfg.maxValue, d3.max(data, function(i){return d3.max(i.map(function(o){return o.value;}))}));
 	console.log(maxValue);
@@ -84,6 +85,11 @@ function RadarChart(id, data, options) {
 	//Append a g element		
 	var g = svg.append("g")
 			.attr("transform", "translate(" + (cfg.w/2 + cfg.margin.left) + "," + (cfg.h/2 + cfg.margin.top) + ")");
+	
+	var legend = svg.append("svg:g").classed("legend", true)
+		.attr("height", cfg.h / 2)
+		.attr("width", cfg.w / 2)
+		.attr("transform", "translate(" + 0 + ", " + 1.1 * cfg.h + ")");
 	
 	/////////////////////////////////////////////////////////
 	////////// Glow filter for some extra pizzazz ///////////
@@ -134,10 +140,11 @@ function RadarChart(id, data, options) {
 		.attr("x2", function(d, i){ return rScale(maxValue*1.0) * Math.cos(angleSlice*i - Math.PI/2); })
 		.attr("y2", function(d, i){ return rScale(maxValue*1.0) * Math.sin(angleSlice*i - Math.PI/2); })
 		.attr("class", "line")
-		.style("stroke", "black")
+		.style("stroke", "white")
 		.style("stroke-width", "1.5px");
 
 	//Append the labels at each axis
+
 	axis.append("text")
 		.attr("class", "legend")
 		.style("font-size", "11px")
@@ -148,38 +155,64 @@ function RadarChart(id, data, options) {
 		.text(function(d){return d})
 		.call(wrap, cfg.wrapWidth);
 
-	// axis.append("text")
-	// 	.attr("class", "legend")
-	// 	.style("font-size", "11px")
-	// 	.attr("text-anchor", "middle")
-	// 	.attr("dy", "0.35em")
-	// 	.attr("x", function(d, i){ 
-	// 		console.log(d);
-	// 		return rScale(maxValue * 0.8) * Math.cos(angleSlice*i - Math.PI/2); })
-	// 	.data(d3.range(1,(cfg.levels+1)).reverse())
-	// 	.attr("y", function(d, i){ 
-	// 		console.log(i)
-	// 		return rScale(maxValue * 0.8) * Math.sin(angleSlice*i - Math.PI/2); })
-	// 	.text(function(d){return 1})
-	// 	.call(wrap, cfg.wrapWidth);
-
+	// for (k = 1; k <= 5; k++) {
+	// 	console.log(k);
+	// 	axis.append("text")
+	// 		.attr("class", "legend")
+	// 		.style("font-size", "11px")
+	// 		.attr("text-anchor", "middle")
+	// 		.attr("dy", "0.35em")
+	// 		.attr("x", function(d, i){ 
+	// 			return rScale(maxValue * 0.2 * k) * Math.cos(angleSlice*i - Math.PI/2); })
+	// 		.data(d3.range(1,(cfg.levels+1)).reverse())
+	// 		.attr("y", function(d, i){ 
+	// 			return rScale(maxValue * 0.2 * k) * Math.sin(angleSlice*i - Math.PI/2); })
+	// 		.text(function(d, i){
+	// 			console.log("jere");
+	// 			console.log(d);
+	// 			console.log(maxArray[d - 1 ]);
+	// 			console.log(maxArray[d - 1] * 0.2 * k);
+	// 			return d3.format('.1f')(maxArray[d] * 0.2 * k)})
+	// 		.call(wrap, cfg.wrapWidth);
+	// }
 	
 	//Text indicating the scale of the axes
-	// axisGrid.selectAll(".axisLabel")
-	//    .data(d3.range(1,(cfg.levels+1)).reverse())
-	//    .enter().append("text")
-	//    .attr("class", "axisLabel")
-	//    .attr("x", 4)
-	//    .attr("y", function(d, i){
-	// 	console.log(i)
-	// 	console.log(-d*radius/cfg.levels);  
-	// 	return -d*radius/cfg.levels;})
-	//    .attr("dy", "0.4em")
-	//    .style("font-size", "10px")
-	//    .attr("fill", "black")
-	//    .text(function(d,i) { return d3.format(".2f")(maxValue * d/cfg.levels); });
+	axisGrid.selectAll(".axisLabel")
+	   .data(d3.range(1,(cfg.levels+1)).reverse())
+	   .enter().append("text")
+	   .attr("class", "axisLabel")
+	   .attr("x", 4)
+	   .attr("y", function(d, i){
+		console.log(i)
+		console.log(-d*radius/cfg.levels);  
+		return -d*radius/cfg.levels;})
+	   .attr("dy", "0.4em")
+	   .style("font-size", "10px")
+	   .attr("fill", "black")
+	   .text(function(d,i) { return d3.format(".2f")(maxValues['Total Fat (g)'] * d/cfg.levels); });
+	
 
+	legend.selectAll(".legend-tiles")
+	   .data(data).enter()
+	   .append("svg:rect").classed("legend-tiles", true)
+	   .attr("x", cfg.w / 2 - cfg.paddingX) 
+	   .attr("y", function(d, i) { return i * 2 * cfg.legendBoxSize + 70; })
+	   .attr("width", cfg.legendBoxSize)
+	   .attr("height", cfg.legendBoxSize)
+	   .attr("fill", function(d, g) { return cfg.color(g); });
 
+	legend.selectAll(".legend-labels")
+	   .data(data).enter()
+	   .append("svg:text").classed("legend-labels", true)
+	   .attr("x", cfg.w / 2 - cfg.paddingX + (1.5 * cfg.legendBoxSize))
+	   .attr("y", function(d, i) { return i * 2 * cfg.legendBoxSize + 70; })
+	   .attr("dy", 0.07 * cfg.legendBoxSize + "em")
+	   .attr("font-size", 11 * cfg.labelScale + "px")
+	   .attr("fill", "gray")
+	   .text(function(d, g) {
+		 return d[0].group;
+	   });
+	
 
 	/////////////////////////////////////////////////////////
 	///////////// Draw the radar chart blobs ////////////////
@@ -188,7 +221,9 @@ function RadarChart(id, data, options) {
 	//The radial line function
 	var radarLine = d3.svg.line.radial()
 		.interpolate("linear-closed")
-		.radius(function(d) { return rScales[d.axis](d.value); })
+		.radius(function(d) { 
+			console.log(rScales[d.axis])
+			return rScales[d.axis](d.value); })
 		.angle(function(d,i) {	return i*angleSlice; });
 		
 	if(cfg.roundStrokes) {
@@ -224,6 +259,8 @@ function RadarChart(id, data, options) {
 				.transition().duration(200)
 				.style("fill-opacity", cfg.opacityArea);
 		});
+
+	
 		
 	//Create the outlines	
 	blobWrapper.append("path")

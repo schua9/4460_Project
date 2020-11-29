@@ -79,7 +79,7 @@
 			////////////////////////////////////////////////////////////// 
 
 			var data = [];
-			var categories = [' Total Fat (g)', ' Protein (g) ', ' Sugars (g)']
+			var categories = [' Total Fat (g)', ' Protein (g) ', 'Caffeine (mg)', 'Calories', ' Total Carbohydrates (g) ']
 			// ' Total Carbohydrates (g) '
 
 			// Hey Joseph, currently I'm parsing all the csv rows as the desired format. I think after you finish your part, we should be able to pass in just an array of drinks that are needed to be displayed and parse them. 
@@ -94,10 +94,11 @@
 						d[' Sugars (g)'] = +d[' Sugars (g)'];
 						d[' Total Fat (g)'] = +d[' Total Fat (g)'];
 						d[' Protein (g) '] = +d[' Protein (g) '];
+						d['Calories'] = +d['Calories'];
 						d[' Total Carbohydrates (g) '] = +d[' Total Carbohydrates (g) '];
 						var one_data = []
 						for (var i = 0; i < categories.length; i++) {
-							var p = {axis: categories[i].trim(), value: d[categories[i]]};
+							var p = {group: d['Beverage_category'] + d['Beverage'] + d['Beverage_prep'], axis: categories[i].trim(), value: d[categories[i]]};
 							one_data.push(p);
 						}
 						data.push(one_data);
@@ -111,21 +112,23 @@
 				////////////////////////////////////////////////////////////// 
 
 				var color = d3.scale.ordinal()
-					.range(["#EDC951","#CC333F","#00A0B0"]);
+					.range(["#EDC951","#CC333F","#00A0B0", "343942"]);
 					
 				var radarChartOptions = {
 				w: width,
 				h: height,
 				margin: margin,
 				maxValue: "1",
-				axesFields: ["Total Fat (g)", "Protein (g)", "Sugars (g)"],
+				axesFields: ["Total Fat (g)", "Protein (g)", "Caffeine (mg)", "Calories", "Total Carbohydrates (g)"],
 				levels: 5,
 				roundStrokes: true,
-				color: color
+				color: color,
+				paddingX: 80,
+				legendBoxSize: 10,
 				};
 				//Call function to draw the Radar chart
 				console.log(data.slice(0,3));
-				RadarChart(".radarChart", data.slice(0,3), radarChartOptions);
+				RadarChart(".radarChart", data.slice(6, 10), radarChartOptions);
 
 			});
 			
