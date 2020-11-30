@@ -12,7 +12,36 @@
 	<h1>ScatterPlot</h1>
 	<div style="display: block;">
 		<div id="scatterplot" style="display: inline-flex;">
-			<svg width="700" height="700" style="border: 1px solid #777;">
+			<svg width="700" height="700" style="border: 1px solid #777;" id="chart1">
+			</svg>
+			<form style="display: block;">
+				X-Axis <select id="xaxis" name="xaxis">
+<!--
+					<option value="red">Red</option>
+					<option value="orange">Orange</option>
+					<option value="yellow">Yellow</option>
+					<option value="green">Green</option>
+					<option value="blue">Blue</option>
+					<option value="purple">Purple</option>
+-->
+				</select>	
+			</br>
+				Y-Axis <select id="yaxis" name="yaxis">
+<!--
+					<option value="red">Red</option>
+					<option value="orange">Orange</option>
+					<option value="yellow">Yellow</option>
+					<option value="green">Green</option>
+					<option value="blue">Blue</option>
+					<option value="purple">Purple</option>
+-->
+				</select>			  
+			</form>
+		</div>
+
+		<h1>Radar Plot</h1>
+		<div class="radarChart" style="display: inline-flex;">
+			<!-- <svg width="700" height="700" style="border: 1px solid #777;"> -->
 			</svg>
 			<form style="display: block;">
 				X-Axis <select id="color" name="color">
@@ -34,6 +63,7 @@
 				</select>			  
 			</form>
 		</div>
+	</div>
 
 		<h1>Radar Plot</h1>
 		<div class="radarChart" style="display: inline-flex;">
