@@ -80,7 +80,7 @@ function RadarChart(id, data, options) {
 	//Initiate the radar chart SVG
 	var svg = d3.select(id).insert("svg", ":first-child")
 			.attr("width",  cfg.w + cfg.margin.left + cfg.margin.right)
-			.attr("height", cfg.h + cfg.margin.top + cfg.margin.bottom)
+			.attr("height", cfg.h + cfg.margin.top + cfg.margin.bottom + 200) // added +200 to make legend visible, should probably be changed later
 			.attr("class", "radar"+id);
 	//Append a g element		
 	var g = svg.append("g")
