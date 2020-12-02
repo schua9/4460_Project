@@ -34,7 +34,7 @@ var margin = {top: 10, right: 30, bottom: 30, left: 60},
 
 // append the svg object to the body of the page
 var svg = d3.select("#chart1")
- .attr("width", width + margin.left + margin.right)
+ .attr("width", width + margin.left + margin.right + 200)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform",
@@ -99,7 +99,6 @@ d3.csv("starbucksdrinks.csv", function(data) {
     .data(data)
     .enter()
     .append("circle")
-      .attr("class", "points")
       .attr("cx", function (d) { return x(d.Calories); } )
       .attr("cy", function (d) {
         return y(d['Cholesterol (mg)']); } )
@@ -158,6 +157,49 @@ d3.csv("starbucksdrinks.csv", function(data) {
           .style("opacity", 0); // don't care about position!
   };
 */
+  //Adding legend
+  var legend_attr =	[["Classic Espresso Drinks", "black"],
+                ["Signature Espresso Drinks", "orange"],
+                ["Tazo Tea Drinks", "magenta"],
+                ["Smoothies", "lime"],
+                ["Coffee", "brown"],
+                ["Other", "blue"]];
+
+  var legend = svg.append("g")
+		.attr("class", "legend")
+		.attr("height", 200)
+		.attr("width", 200)
+    .attr('transform', 'translate(-30,60)');
+    
+  //Adding legend rectangles
+  var legendRect = legend.selectAll('rect').data(legend_attr);
+
+  legendRect
+    .data(legend_attr)
+    .enter()
+    .append("rect")
+    .attr("x", width + 50)
+    .attr('y', function(d,i){ return i*15 - 50})
+    .attr("width", 10)
+    .attr("height", 10)
+    .style("fill", function(d) {
+      return d[1];
+    });
+
+  //Adding corresponding legend text
+  var legendText = legend.selectAll('text').data(legend_attr);
+
+  legendText
+    .data(legend_attr)
+    .enter()
+    .append("text")
+    .attr("x", width + 65)
+    .attr('y', function(d,i){ return i*15 - 40})
+    .attr("width", 10)
+    .attr("height", 10)
+    .text(function(d) {
+        return d[0];
+    });
 
   // Brushing code
   var brush = d3.brush()
