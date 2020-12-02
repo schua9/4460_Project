@@ -27,7 +27,19 @@ table {
 }
 
 th {
-  font-weight: 500;
+  font-weight: 600;
+}
+
+tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+tr:nth-child(even) {
+  background-color: #d9d9d9;
+}
+
+th:nth-child(even) {
+  background-color: #eeeeee;
 }
 
 td {
@@ -52,4 +64,15 @@ form {
 }
 .x.axis path {
   display: none;
+}
+
+.brush {
+  fill: #ff3399;
+  stroke: #000000;
+}
+
+table {
+  visibility: hidden;
+  top: 30px;
+  left: 500px;
 }
