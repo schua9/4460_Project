@@ -35,7 +35,7 @@
 			</form>
 		</div>
 
-		<h1>Radar Plot</h1>
+		<h1>Comparing Key Nutritional Info of Different Starbucks Drinks</h1>
 		<div class="radarChart" style="display: inline-flex;">
 			<!-- <svg width="700" height="700" style="border: 1px solid #777;"> -->
 			</svg>
@@ -50,8 +50,10 @@
 				</select>
 			</br>
 				Drink 4 <select id="drink4" name="drink4">
-				</select>		  
+				</select>		
+			<p>*For ease of comparison, this plot only displays Venti drinks made with nonfat milk.</p>  
 			</form>
+			
 		</div>
 	</div>
 
@@ -66,32 +68,84 @@
 			//////////////////////// Set-Up ////////////////////////////// 
 			////////////////////////////////////////////////////////////// 
 
+			// sets up the margins for the radar plot
 			var margin = {top: 50, right: 100, bottom: 100, left: 100},
 				width = Math.min(700, window.innerWidth - 10) - margin.left - margin.right,
 				height = Math.min(width, window.innerHeight - margin.top - margin.bottom - 20);
 			
-			console.log(width);
-			console.log(height);
 			////////////////////////////////////////////////////////////// 
 			////////////////////////// Data ////////////////////////////// 
 			////////////////////////////////////////////////////////////// 
 
-			var counter = 0;	
-			var data = [];
-			var displayDataIndices = [];
-			var displayData = [];
-			var categories = [' Total Fat (g)', ' Protein (g) ', 'Caffeine (mg)', 'Calories', ' Total Carbohydrates (g) ']
-			// ' Total Carbohydrates (g) '
+			var counter = 0; // initializes the counter
+			
+			// grab the dropdown selectors
+			var drink1select = d3.select("#drink1").on("change", change);
+			var drink2select = d3.select("#drink2").on("change", change);
+			var drink3select = d3.select("#drink3").on("change", change);
+			var drink4select = d3.select("#drink4").on("change", change);
 
-			// Hey Joseph, currently I'm parsing all the csv rows as the desired format. I think after you finish your part, we should be able to pass in just an array of drinks that are needed to be displayed and parse them. 
-			// So the dropdown should have a mechanism of parsing the drink name that the user selects into the index, which we then use to extract the actual rows themselves into data processing? Let me know when if what I said does not make sense. 
+			// variables for easy storage of selected indices
+			var selected1 = 0;
+			var selected2 = 1;
+			var selected3 = 2;
+			var selected4 = 3;
+
+			var data = []; // array of all selectable data points
+			var displayDataIndices = []; // array of the indices of the 4 selected data points
+			var displayData = []; // array of the 4 selected data points for use in the radarplot function
+			var categories = [' Total Fat (g)', ' Protein (g) ', 'Caffeine (mg)', 'Calories', ' Total Carbohydrates (g) '] //categories to be shown on the radar plot
+
+			// colors for use in the radar plot
+			var color = d3.scale.ordinal()
+					.range(["#EDC951","#CC333F","#00A0B0", "343942"]);
+
+			// parameters used in creation of the radar plot
+			var radarChartOptions = {
+				w: width,
+				h: height,
+				margin: margin,
+				maxValue: "1",
+				axesFields: ["Total Fat (g)", "Protein (g)", "Caffeine (mg)", "Calories", "Total Carbohydrates (g)"],
+				levels: 5,
+				roundStrokes: true,
+				color: color,
+				paddingX: 80,
+				legendBoxSize: 10,
+			};
+			
+			
+			// called on change of dropdown menu items, and once on startup
+			function change() {
+				// grab selected values from dropdown menus- change()
+				selected1 = drink1select.property('selectedIndex');
+				selected2 = drink2select.property('selectedIndex');
+				selected3 = drink3select.property('selectedIndex');
+				selected4 = drink4select.property('selectedIndex');
+
+				// add values (indices) to displayDataIndices array
+				displayDataIndices = [];
+				displayDataIndices.push(selected1);
+				displayDataIndices.push(selected2);
+				displayDataIndices.push(selected3);
+				displayDataIndices.push(selected4);
+
+				// for each index in displayDataIndices, grab the item in data and add to displayData array
+				displayData[0] = data[displayDataIndices[0]];
+				displayData[1] = data[displayDataIndices[1]];
+				displayData[2] = data[displayDataIndices[2]];
+				displayData[3] = data[displayDataIndices[3]];
+
+				// function to draw the radar chart
+				RadarChart(".radarChart", displayData, radarChartOptions);
+			}
 
 			// TODO: Is there a way to do different scale for each axis?
 			d3.csv('starbucksdrinks.csv', function(csvData) {	
+				var text = "";
 				csvData.forEach(
 					function(d) {
-						// console.log("d.bev_prep");
-						// console.log(d.Beverage_prep);
+						// Only grabs the venti and venti nonfat milk options for the radar plot
 						if (d.Beverage_prep == "Venti" || d.Beverage_prep == "Venti Nonfat Milk") {	
 
 							d.Calories = +d.Calories;
@@ -102,31 +156,25 @@
 							d['Calories'] = +d['Calories'];
 							d[' Total Carbohydrates (g) '] = +d[' Total Carbohydrates (g) '];
 
-							var one_data = []
+							var one_data = [];
 
+							// Format the text to indicate frappuccinos
+							if (d['Beverage_category'] == "Frappuccino Blended Coffee" || d['Beverage_category'] == "Frappuccino Blended Creme") {
+								text = "Frappuccino: " + d['Beverage'];
+							} else if (d['Beverage_category'] == "Frappuccino Light Blended Coffee") {
+								text = "Light Frappuccino: " + d['Beverage'];
+							} else {
+								text = d['Beverage'];
+							}
+
+							// puts the data into a structure usable by the radarplot function
 							for (var i = 0; i < categories.length; i++) {
-								var p = {group: d['Beverage'], axis: categories[i].trim(), value: d[categories[i]]};
+								var p = {group: text, axis: categories[i].trim(), value: d[categories[i]]};
 								one_data.push(p);
 							}
 						data.push(one_data);
 
-						// Format the text to indicate frappuccinos
-						var text = "";
-						if (d['Beverage_category'] == "Frappuccino Blended Coffee" || d['Beverage_category'] == "Frappuccino Blended Creme") {
-							text = "Frappuccino: " + d['Beverage'];
-						} else if (d['Beverage_category'] == "Frappuccino Light Blended Coffee") {
-							text = "Light Frappuccino: " + d['Beverage'];
-						} else {
-							text = d['Beverage'];
-						}
-
-						// grab the dropdown selectors
-						var drink1select = d3.select("#drink1");
-						var drink2select = d3.select("#drink2");
-						var drink3select = d3.select("#drink3");
-						var drink4select = d3.select("#drink4")
-
-						//adds each element to the dropdown, and chooses the first 4 to be selected by default
+						// adds each element to the dropdown, and chooses the first 4 to be selected by default
 						if (counter == 0) {
 							drink1select.append("option").text(text).property("value", counter).property("selected", "selected");
 						} else {
@@ -148,46 +196,17 @@
 							drink4select.append("option").text(text).property("value", counter);
 						}
 
-						// increments the counter after each element that fits the requirements 
+						// Increments the counter after each element that fits the requirements 
 						counter += 1;
 						}
-
-						// counter += 1;
 					}
 				);
+				/////////////////////////////////////////////////////////////////
+				// Draw the Chart - Moved to top of script for use by change() //
+				///////////////////////////////////////////////////////////////// 
 
-				////////////////////////////////////////////////////////////// 
-				//////////////////// Draw the Chart ////////////////////////// 
-				////////////////////////////////////////////////////////////// 
-
-				var color = d3.scale.ordinal()
-					.range(["#EDC951","#CC333F","#00A0B0", "343942"]);
-					
-				var radarChartOptions = {
-				w: width,
-				h: height,
-				margin: margin,
-				maxValue: "1",
-				axesFields: ["Total Fat (g)", "Protein (g)", "Caffeine (mg)", "Calories", "Total Carbohydrates (g)"],
-				levels: 5,
-				roundStrokes: true,
-				color: color,
-				paddingX: 80,
-				legendBoxSize: 10,
-				};
-				
-				//shows the correct, 29 element array after parsing
-				console.log("Data array after parsing:");
-				console.log(data);
-
-				// grab selected values from dropdown menus
-				// add values (indices) to displayDataIndices array
-				// for each index in displayDataIndices, grab the item in data and add to displayData array
-				// call the radarchart function with the displayData array
-
-
-				//Call function to draw the Radar chart
-				RadarChart(".radarChart", data.slice(0, 4), radarChartOptions);
+				// Call function to draw the Radar chart - MOVED TO INSIDE CHANGE()
+				change();			
 			});
 			
 		</script>

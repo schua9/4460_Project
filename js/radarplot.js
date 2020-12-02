@@ -47,11 +47,11 @@ function RadarChart(id, data, options) {
 			}
 		}
 	}
-	console.log(maxValues);
+	// console.log(maxValues);
 	var maxArray = [3.5, 10, 75, 100, 120];
 
 	var maxValue = Math.max(cfg.maxValue, d3.max(data, function(i){return d3.max(i.map(function(o){return o.value;}))}));
-	console.log(maxValue);
+	// console.log(maxValue);
 		
 	var allAxis = (data[0].map(function(i, j){return i.axis})),	//Names of each axis
 		total = allAxis.length,					//The number of different axes
@@ -80,7 +80,7 @@ function RadarChart(id, data, options) {
 	//Initiate the radar chart SVG
 	var svg = d3.select(id).insert("svg", ":first-child")
 			.attr("width",  cfg.w + cfg.margin.left + cfg.margin.right)
-			.attr("height", cfg.h + cfg.margin.top + cfg.margin.bottom + 200) // added +200 to make legend visible, should probably be changed later
+			.attr("height", cfg.h + cfg.margin.top + cfg.margin.bottom + 100)
 			.attr("class", "radar"+id);
 	//Append a g element		
 	var g = svg.append("g")
@@ -202,7 +202,7 @@ function RadarChart(id, data, options) {
 	var radarLine = d3.svg.line.radial()
 		.interpolate("linear-closed")
 		.radius(function(d) { 
-			console.log(rScales[d.axis])
+			// console.log(rScales[d.axis])
 			return rScales[d.axis](d.value); })
 		.angle(function(d,i) {	return i*angleSlice; });
 		
@@ -258,9 +258,9 @@ function RadarChart(id, data, options) {
 		.attr("class", "radarCircle")
 		.attr("r", cfg.dotRadius)
 		.attr("cx", function(d,i){ 
-			console.log("append the circles")
-			console.log(d.axis)
-			console.log(d.value)
+			// console.log("append the circles")
+			// console.log(d.axis)
+			// console.log(d.value)
 			return rScales[d.axis](d.value) * Math.cos(angleSlice*i - Math.PI/2); })
 		.attr("cy", function(d,i){ return rScales[d.axis](d.value) * Math.sin(angleSlice*i - Math.PI/2); })
 		.style("fill", function(d,i,j) { return cfg.color(j); })
