@@ -16,26 +16,22 @@
 			</svg>
 			<form style="display: block;">
 				X-Axis <select id="xaxis" name="xaxis">
-<!--
-					<option value="red">Red</option>
-					<option value="orange">Orange</option>
-					<option value="yellow">Yellow</option>
-					<option value="green">Green</option>
-					<option value="blue">Blue</option>
-					<option value="purple">Purple</option>
--->
 				</select>	
 			</br>
 				Y-Axis <select id="yaxis" name="yaxis">
-<!--
-					<option value="red">Red</option>
-					<option value="orange">Orange</option>
-					<option value="yellow">Yellow</option>
-					<option value="green">Green</option>
-					<option value="blue">Blue</option>
-					<option value="purple">Purple</option>
--->
-				</select>			  
+				</select>
+			</br>
+				<div id="table">
+					<table>
+						<tr>
+							<th id="Beverage">Beverage</th>
+							<th id="Category">Category</th>
+							<th id="Prep">Prep</th>
+							<th id="XAxesData"></th>
+							<th id="YAxesData"></th>
+						</tr>
+					</table>
+				</div>		  
 			</form>
 		</div>
 
@@ -164,7 +160,7 @@
 				legendBoxSize: 10,
 				};
 				//Call function to draw the Radar chart
-				console.log(data.slice(0,3));
+				// console.log(data.slice(0,3));
 				RadarChart(".radarChart", data.slice(6, 10), radarChartOptions);
 			});
 			
