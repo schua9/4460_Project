@@ -84,7 +84,7 @@ function RadarChart(id, data, options) {
 			.attr("class", "radar"+id);
 	//Append a g element		
 	var g = svg.append("g")
-			.attr("transform", "translate(" + (cfg.w/2 + cfg.margin.left - 50) + "," + (cfg.h/2 + cfg.margin.top + 50) + ")");  // hard coded padding to make label visible and center legend, maybe change after
+			.attr("transform", "translate(" + (cfg.w/2 + cfg.margin.left - 25) + "," + (cfg.h/2 + cfg.margin.top + 50) + ")");  // hard coded padding to make label visible and center legend, maybe change after
 	
 	var legend = svg.append("svg:g").classed("legend", true)
 		.attr("height", cfg.h / 2)
