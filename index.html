@@ -76,9 +76,10 @@
 			////////////////////////// Data ////////////////////////////// 
 			////////////////////////////////////////////////////////////// 
 
-			var counter = 0;			
+			var counter = 0;	
 			var data = [];
-			var newData = [];
+			var displayDataIndices = [];
+			var displayData = [];
 			var categories = [' Total Fat (g)', ' Protein (g) ', 'Caffeine (mg)', 'Calories', ' Total Carbohydrates (g) ']
 			// ' Total Carbohydrates (g) '
 
@@ -119,26 +120,39 @@
 							text = d['Beverage'];
 						}
 
-						// Set the values of the dropdown menus
-						var drink1select = d3.select("#drink1")
-							.append("option")
-							.text(text)						
-							.property("value", counter);
-						var drink2select = d3.select("#drink2")
-							.append("option")
-							.text(text)						
-							.property("value", counter);
-						var drink3select = d3.select("#drink3")
-							.append("option")
-							.text(text)						
-							.property("value", counter);
+						// grab the dropdown selectors
+						var drink1select = d3.select("#drink1");
+						var drink2select = d3.select("#drink2");
+						var drink3select = d3.select("#drink3");
 						var drink4select = d3.select("#drink4")
-							.append("option")
-							.text(text)						
-							.property("value", counter);
+
+						//adds each element to the dropdown, and chooses the first 4 to be selected by default
+						if (counter == 0) {
+							drink1select.append("option").text(text).property("value", counter).property("selected", "selected");
+						} else {
+							drink1select.append("option").text(text).property("value", counter);
+						}
+						if (counter == 1) {
+							drink2select.append("option").text(text).property("value", counter).property("selected", "selected");
+						} else {
+							drink2select.append("option").text(text).property("value", counter);
+						}
+						if (counter == 2) {
+							drink3select.append("option").text(text).property("value", counter).property("selected", "selected");
+						} else {
+							drink3select.append("option").text(text).property("value", counter);
+						}
+						if (counter == 3) {
+							drink4select.append("option").text(text).property("value", counter).property("selected", "selected");
+						} else {
+							drink4select.append("option").text(text).property("value", counter);
 						}
 
+						// increments the counter after each element that fits the requirements 
 						counter += 1;
+						}
+
+						// counter += 1;
 					}
 				);
 
@@ -161,9 +175,19 @@
 				paddingX: 80,
 				legendBoxSize: 10,
 				};
+				
+				//shows the correct, 29 element array after parsing
+				console.log("Data array after parsing:");
+				console.log(data);
+
+				// grab selected values from dropdown menus
+				// add values (indices) to displayDataIndices array
+				// for each index in displayDataIndices, grab the item in data and add to displayData array
+				// call the radarchart function with the displayData array
+
+
 				//Call function to draw the Radar chart
-				// console.log(data.slice(0,3));
-				RadarChart(".radarChart", data.slice(6, 10), radarChartOptions);
+				RadarChart(".radarChart", data.slice(0, 4), radarChartOptions);
 			});
 			
 		</script>
