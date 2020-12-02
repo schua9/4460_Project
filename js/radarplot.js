@@ -84,12 +84,12 @@ function RadarChart(id, data, options) {
 			.attr("class", "radar"+id);
 	//Append a g element		
 	var g = svg.append("g")
-			.attr("transform", "translate(" + (cfg.w/2 + cfg.margin.left) + "," + (cfg.h/2 + cfg.margin.top) + ")");
+			.attr("transform", "translate(" + (cfg.w/2 + cfg.margin.left - 50) + "," + (cfg.h/2 + cfg.margin.top + 50) + ")");  // hard coded padding to make label visible and center legend, maybe change after
 	
 	var legend = svg.append("svg:g").classed("legend", true)
 		.attr("height", cfg.h / 2)
 		.attr("width", cfg.w / 2)
-		.attr("transform", "translate(" + 0 + ", " + 1.1 * cfg.h + ")");
+		.attr("transform", "translate(-" + 50 + ", " + 1.1 * cfg.h + ")");
 	
 	/////////////////////////////////////////////////////////
 	////////// Glow filter for some extra pizzazz ///////////
@@ -155,41 +155,21 @@ function RadarChart(id, data, options) {
 		.text(function(d){return d})
 		.call(wrap, cfg.wrapWidth);
 
-	// for (k = 1; k <= 5; k++) {
-	// 	console.log(k);
-	// 	axis.append("text")
-	// 		.attr("class", "legend")
-	// 		.style("font-size", "11px")
-	// 		.attr("text-anchor", "middle")
-	// 		.attr("dy", "0.35em")
-	// 		.attr("x", function(d, i){ 
-	// 			return rScale(maxValue * 0.2 * k) * Math.cos(angleSlice*i - Math.PI/2); })
-	// 		.data(d3.range(1,(cfg.levels+1)).reverse())
-	// 		.attr("y", function(d, i){ 
-	// 			return rScale(maxValue * 0.2 * k) * Math.sin(angleSlice*i - Math.PI/2); })
-	// 		.text(function(d, i){
-	// 			console.log("jere");
-	// 			console.log(d);
-	// 			console.log(maxArray[d - 1 ]);
-	// 			console.log(maxArray[d - 1] * 0.2 * k);
-	// 			return d3.format('.1f')(maxArray[d] * 0.2 * k)})
-	// 		.call(wrap, cfg.wrapWidth);
-	// }
 	
-	//Text indicating the scale of the axes
-	axisGrid.selectAll(".axisLabel")
-	   .data(d3.range(1,(cfg.levels+1)).reverse())
-	   .enter().append("text")
-	   .attr("class", "axisLabel")
-	   .attr("x", 4)
-	   .attr("y", function(d, i){
-		console.log(i)
-		console.log(-d*radius/cfg.levels);  
-		return -d*radius/cfg.levels;})
-	   .attr("dy", "0.4em")
-	   .style("font-size", "10px")
-	   .attr("fill", "black")
-	   .text(function(d,i) { return d3.format(".2f")(maxValues['Total Fat (g)'] * d/cfg.levels); });
+	// //Text indicating the scale of the axes
+	// axisGrid.selectAll(".axisLabel")
+	//    .data(d3.range(1,(cfg.levels+1)).reverse())
+	//    .enter().append("text")
+	//    .attr("class", "axisLabel")
+	//    .attr("x", 4)
+	//    .attr("y", function(d, i){
+	// 	console.log(i)
+	// 	console.log(-d*radius/cfg.levels);  
+	// 	return -d*radius/cfg.levels;})
+	//    .attr("dy", "0.4em")
+	//    .style("font-size", "10px")
+	//    .attr("fill", "black")
+	//    .text(function(d,i) { return d3.format(".2f")(maxValues['Total Fat (g)'] * d/cfg.levels); });
 	
 
 	legend.selectAll(".legend-tiles")
