@@ -140,6 +140,17 @@
 				RadarChart(".radarChart", displayData, radarChartOptions);
 			}
 
+			var one_data = [];
+				for (var i = 0; i < categories.length; i++) {
+					var p = {group: "Empty", axis: categories[i].trim(), value: 0};
+					one_data.push(p);
+				}
+				data.push(one_data);
+				counter += 1;
+				drink1select.append("option").text("Empty").property("value", counter);
+				drink2select.append("option").text("Empty").property("value", counter);
+				drink3select.append("option").text("Empty").property("value", counter);
+				drink4select.append("option").text("Empty").property("value", counter);
 			// TODO: Is there a way to do different scale for each axis?
 			d3.csv('starbucksdrinks.csv', function(csvData) {	
 				var text = "";
@@ -174,23 +185,24 @@
 							}
 						data.push(one_data);
 
+						
 						// adds each element to the dropdown, and chooses the first 4 to be selected by default
-						if (counter == 0) {
+						if (counter == 1) {
 							drink1select.append("option").text(text).property("value", counter).property("selected", "selected");
 						} else {
 							drink1select.append("option").text(text).property("value", counter);
 						}
-						if (counter == 1) {
+						if (counter == 2) {
 							drink2select.append("option").text(text).property("value", counter).property("selected", "selected");
 						} else {
 							drink2select.append("option").text(text).property("value", counter);
 						}
-						if (counter == 2) {
+						if (counter == 3) {
 							drink3select.append("option").text(text).property("value", counter).property("selected", "selected");
 						} else {
 							drink3select.append("option").text(text).property("value", counter);
 						}
-						if (counter == 3) {
+						if (counter == 4) {
 							drink4select.append("option").text(text).property("value", counter).property("selected", "selected");
 						} else {
 							drink4select.append("option").text(text).property("value", counter);

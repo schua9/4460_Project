@@ -258,13 +258,17 @@ function RadarChart(id, data, options) {
 		.attr("class", "radarCircle")
 		.attr("r", cfg.dotRadius)
 		.attr("cx", function(d,i){ 
-			// console.log("append the circles")
-			// console.log(d.axis)
-			// console.log(d.value)
 			return rScales[d.axis](d.value) * Math.cos(angleSlice*i - Math.PI/2); })
 		.attr("cy", function(d,i){ return rScales[d.axis](d.value) * Math.sin(angleSlice*i - Math.PI/2); })
-		.style("fill", function(d,i,j) { return cfg.color(j); })
-		.style("fill-opacity", 0.8);
+		.style("fill", function(d,i,j) { 
+			return cfg.color(j); })
+		.style("fill-opacity", function(d, i) {
+			if (d.group === "Empty") {
+				return 0,0;
+			} else {
+				return 0.8;
+			}
+		});
 
 	/////////////////////////////////////////////////////////
 	//////// Append invisible circles for tooltip ///////////
