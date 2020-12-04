@@ -1,10 +1,7 @@
 window.onload = start;
 
+// Parsing data for dropdown
 d3.csv('starbucksdrinks.csv', function(csv) {
-//    var xselect = d3.select("#xaxis")
-//        .append("option")
-//        .text("YO")
-//        .property('value', 'dsfdhg')
     var counter = 0;
     for (var column in csv.columns) {
         if (counter > 2) {
@@ -27,25 +24,26 @@ d3.csv('starbucksdrinks.csv', function(csv) {
     }
 });
 
-// set the dimensions and margins of the graph
+// Set the dimensions and margins of the graph
 var margin = {top: 10, right: 30, bottom: 30, left: 60},
     width = 700 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
-// append the svg object to the body of the page
+// Append the svg object to the body of the page
 var svg = d3.select("#chart1")
- .attr("width", width + margin.left + margin.right + 200)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
+    .attr("width", width + margin.left + margin.right + 200)
+    .attr("height", height + margin.top + margin.bottom + 30)
+    .append("g")
     .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
+      "translate(" + margin.left + "," + margin.top + ")");
 
+// Parsing data for data viz
 d3.csv("starbucksdrinks.csv", function(data) {
   // Getting chosen x-axis and y-axis values
   XAxis = document.getElementById('xaxis').value
   YAxis = document.getElementById('yaxis').value
 
-  //parsing data to calculate axes values
+  // Parsing data to calculate axes values
   data.forEach(function(d) {
     d[" Calcium (% DV) "] = parseFloat(d[" Calcium (% DV) "])
     d[" Dietary Fibre (g)"] = parseFloat(d[" Dietary Fibre (g)"])
@@ -64,34 +62,65 @@ d3.csv("starbucksdrinks.csv", function(data) {
     d["Vitamin C (% DV)"] = parseFloat(d["Vitamin C (% DV)"])
   });
 
-  // Finding maximum value of chosen dropdown for x axis
-  maxXAxis = d3.max(data, function(d) {
-    return d[XAxis]
-  })
+// Adjusting starting X axis domain length
+    var xVal = 0;
+    var globalxmax = 0;
+    
+    function xDomain() {
+        if (xVal == 0) {
+            return 550;
+        } else {
+            console.log(globalxmax)
+            return globalxmax;
+        }
+    }
 
-  // Finding maximum value of chosen dropdown for y axis
-  maxYAxis = d3.max(data, function(d) {
-    return d[YAxis]
-  })
-
+    // Adjusting starting Y axis domain length
+    var yVal = 0;
+    var globalymax = 0;
+    
+    function yDomain() {
+        if (yVal == 0) {
+            return 550;
+        } else {
+            console.log(globalymax)
+            return globalymax;
+        }
+    }
+    
   // Add X axis
   var x = d3.scaleLinear()
-    .domain([0, maxXAxis + 5])
-    .range([0, width]);
+    .domain([0, xDomain() + Math.log(xDomain())])
+    .range([0, 600]);
 
-  svg.append("g")
+  var xAxis = svg.append("g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x));
 
   // Add Y axis
   var y = d3.scaleLinear()
-    .domain([0, maxYAxis + 5])
+    .domain([0, 510 + 5])
     .range([height, 0]);
 
-  svg.append("g")
+  var yAxis = svg.append("g")
     .attr("class", "y axis")
     .call(d3.axisLeft(y));
+    
+// Add X axis label:
+var xLabel = svg.append("text")
+    .attr("text-anchor", "end")
+    .attr("x", width - 250)
+    .attr("y", height + margin.top + 30)
+    .text("Cholesterol \(mg\)");
+
+// Y axis label:
+var yLabel = svg.append("text")
+    .attr("text-anchor", "end")
+    .attr("transform", "rotate(-90)")
+    .attr("y", -margin.left+20)
+    .attr("x", -margin.top - 165)
+    .text("Calories")
 
   // Add dots
   var circles = svg.append('g')
@@ -119,45 +148,106 @@ d3.csv("starbucksdrinks.csv", function(data) {
             return "blue"
         }
       })
+  
+  // Updating x axis label and x coords for circles
+  function updateX(selectedGroup) {
+    updateXAxis(selectedGroup)
+    circles
+        .transition()
+        .delay(50)
+        .duration(2000)
+        .attr("cx", function (d) { return x(d[selectedGroup]); } )
+    xLabel.text(selectedGroup)
+//    x.domain([0, updateXAxis(selectedGroup) + 600])        
+    }
+    
+    // Update X Axis Plot
+    function updateXPlot() {
 
-  function update(selectedGroup) {
-      var dataFilter = data.map(function(d){return {time: d.Calories, value:d[selectedGroup]} })
+        // Update X axis
+        x.domain([0,globalxmax])
+        xAxis.transition().duration(1000).call(d3.axisBottom(x))
+      }
+    
+    // Helper function to find max data value for selection
+    function updateXAxis(selectedGroup) {
+        var max = data[0][selectedGroup]
+        // Find max data value to scale axis
+        for (var i = 1; i < data.length; i++) {
+            if (data[i][selectedGroup] > max) {
+               max = data[i][selectedGroup];
+            }
+            if (isNaN(data[i][selectedGroup])) {
+            //                   console.log(data[i][selectedGroup])
+               data[i][selectedGroup] = 0;
+            //                   console.log(data[i][selectedGroup])
+            }
+        }
+        globalxmax = max
+        return max
     }
 
   // When the button is changed, run the updateChart function
   d3.select("#xaxis").on("change", function(d) {
+      xVal = 1
     // recover the option that has been chosen
-    var selectedOption = d3.select(this).property("value")
+    var selectedOptionX = d3.select(this).property("value")
     // run the updateChart function with this selected option
-    update(selectedOption)
+    updateX(selectedOptionX)
+    xDomain(selectedOptionX)
+    updateXPlot()
+    updateX(selectedOptionX)
   })
+  
     
-/*    
-  // Add the tooltip container to the vis container
-  // it's invisible and its position/contents are defined during mouseover
-  var tooltip = d3.select("#chart1").append("div")
-      .attr("class", "tooltip")
-      .style("opacity", 0);
-
-  // tooltip mouseover event handler
-  var tipMouseover = function(d) {
-      var html  = "HELLO"
-      tooltip.html(html)
-          .style("left", (d3.event.pageX + 15) + "px")
-          .style("top", (d3.event.pageY - 28) + "px")
+    // Update Y Axis Plot
+    function updateYPlot() {
+        y.domain([0,globalymax])
+        yAxis.transition().duration(1000).call(d3.axisLeft(y))
+    }
+    
+  // Updating y axis label and y coords for circles    
+  function updateY(selectedGroup) {
+    updateYAxis(selectedGroup)
+      circles
         .transition()
-          .duration(100) // ms
-          .style("opacity", .9) // started as 0!
+        .delay(50)
+        .duration(2000)
+        .attr("cy", function (d) { return y(d[selectedGroup]); } )
+      yLabel.text(selectedGroup)
+    }
+    
+        // Helper function to find max data value for selection
+    function updateYAxis(selectedGroup) {
+        var max = data[0][selectedGroup]
+        // Find max data value to scale axis
+        for (var i = 1; i < data.length; i++) {
+            if (data[i][selectedGroup] > max) {
+               max = data[i][selectedGroup];
+            }
+            if (isNaN(data[i][selectedGroup])) {
+            //                   console.log(data[i][selectedGroup])
+               data[i][selectedGroup] = 0;
+            //                   console.log(data[i][selectedGroup])
+            }
+        }
+        globalymax = max
+        console.log(globalymax)
+        return max
+    }
 
-  };
-  // tooltip mouseout event handler
-  var tipMouseout = function(d) {
-      tooltip.transition()
-          .duration(100) // ms
-          .style("opacity", 0); // don't care about position!
-  };
-*/
-  //Adding legend
+  // When the button is changed, run the updateChart function
+  d3.select("#yaxis").on("change", function(d) {
+    // recover the option that has been chosen
+    var selectedOptionY = d3.select(this).property("value")
+    // run the updateChart function with this selected option
+    updateY(selectedOptionY)
+      yDomain(selectedOptionY)
+      updateYPlot()
+      updateY(selectedOptionY)
+  })
+
+  // Adding legend
   var legend_attr =	[["Classic Espresso Drinks", "black"],
                 ["Signature Espresso Drinks", "orange"],
                 ["Tazo Tea Drinks", "magenta"],
@@ -171,7 +261,7 @@ d3.csv("starbucksdrinks.csv", function(data) {
 		.attr("width", 200)
     .attr('transform', 'translate(-30,60)');
     
-  //Adding legend rectangles
+  // Adding legend rectangles
   var legendRect = legend.selectAll('rect').data(legend_attr);
 
   legendRect
@@ -186,7 +276,7 @@ d3.csv("starbucksdrinks.csv", function(data) {
       return d[1];
     });
 
-  //Adding corresponding legend text
+  // Adding corresponding legend text
   var legendText = legend.selectAll('text').data(legend_attr);
 
   legendText
