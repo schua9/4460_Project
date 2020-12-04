@@ -1,6 +1,8 @@
 # 4460_Project
 ### How to See the Vis Through Chrome
 Navigate to this url: https://schua9.github.io/4460_Project/ 
+
+** You can use the scroll bar or zoom out to see the full view **
 ### How to Deploy and Edit
 1. Open terminal and clone the repo
 

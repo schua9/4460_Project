@@ -70,7 +70,6 @@ d3.csv("starbucksdrinks.csv", function(data) {
         if (xVal == 0) {
             return 550;
         } else {
-//            console.log(globalxmax)
             return globalxmax;
         }
     }
@@ -83,7 +82,6 @@ d3.csv("starbucksdrinks.csv", function(data) {
         if (yVal == 0) {
             return 550;
         } else {
-//            console.log(globalymax)
             return globalymax;
         }
     }
@@ -178,9 +176,7 @@ var yLabel = svg.append("text")
                max = data[i][selectedGroup];
             }
             if (isNaN(data[i][selectedGroup])) {
-            //                   console.log(data[i][selectedGroup])
                data[i][selectedGroup] = 0;
-            //                   console.log(data[i][selectedGroup])
             }
         }
         globalxmax = max
@@ -226,13 +222,10 @@ var yLabel = svg.append("text")
                max = data[i][selectedGroup];
             }
             if (isNaN(data[i][selectedGroup])) {
-            //                   console.log(data[i][selectedGroup])
                data[i][selectedGroup] = 0;
-            //                   console.log(data[i][selectedGroup])
             }
         }
         globalymax = max
-//        console.log(globalymax)
         return max
     }
 
