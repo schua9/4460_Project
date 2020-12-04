@@ -4,8 +4,6 @@ function start() {
     var svg = document.getElementById('radarplot')
 
     d3.csv('starbucksdrinks.csv')
-
-
 }
 
 function RadarChart(id, data, options) {
@@ -29,8 +27,8 @@ function RadarChart(id, data, options) {
 	if('undefined' !== typeof options){
 	  for(var i in options){
 		if('undefined' !== typeof options[i]){ cfg[i] = options[i]; }
-	  }//for i
-	}//if
+	  }
+	}
 	
 	// Decide on different axes scale
 	var maxValues = {};
@@ -47,11 +45,8 @@ function RadarChart(id, data, options) {
 			}
 		}
 	}
-	// console.log(maxValues);
-	var maxArray = [3.5, 10, 75, 100, 120];
 
 	var maxValue = Math.max(cfg.maxValue, d3.max(data, function(i){return d3.max(i.map(function(o){return o.value;}))}));
-	// console.log(maxValue);
 		
 	var allAxis = (data[0].map(function(i, j){return i.axis})),	//Names of each axis
 		total = allAxis.length,					//The number of different axes
@@ -144,7 +139,6 @@ function RadarChart(id, data, options) {
 		.style("stroke-width", "1.5px");
 
 	//Append the labels at each axis
-
 	axis.append("text")
 		.attr("class", "legend")
 		.style("font-size", "11px")
@@ -154,23 +148,6 @@ function RadarChart(id, data, options) {
 		.attr("y", function(d, i){ return rScale(maxValue * cfg.labelFactor) * Math.sin(angleSlice*i - Math.PI/2); })
 		.text(function(d){return d})
 		.call(wrap, cfg.wrapWidth);
-
-	
-	// //Text indicating the scale of the axes
-	// axisGrid.selectAll(".axisLabel")
-	//    .data(d3.range(1,(cfg.levels+1)).reverse())
-	//    .enter().append("text")
-	//    .attr("class", "axisLabel")
-	//    .attr("x", 4)
-	//    .attr("y", function(d, i){
-	// 	console.log(i)
-	// 	console.log(-d*radius/cfg.levels);  
-	// 	return -d*radius/cfg.levels;})
-	//    .attr("dy", "0.4em")
-	//    .style("font-size", "10px")
-	//    .attr("fill", "black")
-	//    .text(function(d,i) { return d3.format(".2f")(maxValues['Total Fat (g)'] * d/cfg.levels); });
-	
 
 	legend.selectAll(".legend-tiles")
 	   .data(data).enter()
@@ -202,7 +179,6 @@ function RadarChart(id, data, options) {
 	var radarLine = d3.svg.line.radial()
 		.interpolate("linear-closed")
 		.radius(function(d) { 
-			// console.log(rScales[d.axis])
 			return rScales[d.axis](d.value); })
 		.angle(function(d,i) {	return i*angleSlice; });
 		
@@ -341,6 +317,5 @@ function RadarChart(id, data, options) {
 		  }
 		}
 	  });
-	}//wrap	
-	
-}//RadarChart
+	}
+}
