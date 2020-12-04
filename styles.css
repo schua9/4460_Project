@@ -76,3 +76,8 @@ table {
   top: 30px;
   left: 500px;
 }
+
+#scatterplotside {
+    max-height: 393px;
+    overflow-y: scroll;
+}
