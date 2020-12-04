@@ -70,7 +70,7 @@ d3.csv("starbucksdrinks.csv", function(data) {
         if (xVal == 0) {
             return 550;
         } else {
-            console.log(globalxmax)
+//            console.log(globalxmax)
             return globalxmax;
         }
     }
@@ -83,7 +83,7 @@ d3.csv("starbucksdrinks.csv", function(data) {
         if (yVal == 0) {
             return 550;
         } else {
-            console.log(globalymax)
+//            console.log(globalymax)
             return globalymax;
         }
     }
@@ -232,7 +232,7 @@ var yLabel = svg.append("text")
             }
         }
         globalymax = max
-        console.log(globalymax)
+//        console.log(globalymax)
         return max
     }
 
