@@ -157,10 +157,14 @@
 				csvData.forEach(
 					function(d) {
 						// Only grabs the venti and venti nonfat milk options for the radar plot
-						if (d.Beverage_prep == "Venti" || d.Beverage_prep == "Venti Nonfat Milk") {	
+						if ((d.Beverage_prep == "Venti" || d.Beverage_prep == "Venti Nonfat Milk") && d.Beverage != "Tazo Tea") {	
 
 							d.Calories = +d.Calories;
-							d['Caffeine (mg)'] = +d['Caffeine (mg)'];
+							if (d['Caffeine (mg)'] == "varies" || d['Caffeine (mg)'] == "Varies") {
+								d['Caffeine (mg)'] = 0;
+							} else {
+								d['Caffeine (mg)'] = +d['Caffeine (mg)'];
+							}
 							d[' Sugars (g)'] = +d[' Sugars (g)'];
 							d[' Total Fat (g)'] = +d[' Total Fat (g)'];
 							d[' Protein (g) '] = +d[' Protein (g) '];
