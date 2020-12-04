@@ -155,8 +155,7 @@ var yLabel = svg.append("text")
         .delay(50)
         .duration(2000)
         .attr("cx", function (d) { return x(d[selectedGroup]); } )
-    xLabel.text(selectedGroup)
-//    x.domain([0, updateXAxis(selectedGroup) + 600])        
+    xLabel.text(selectedGroup) 
     }
     
     // Update X Axis Plot
