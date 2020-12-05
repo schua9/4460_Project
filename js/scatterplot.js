@@ -94,11 +94,11 @@ d3.csv("starbucksdrinks.csv", function(data) {
   var xAxis = svg.append("g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x));
+    .call(d3.axisBottom(x))
 
   // Add Y axis
   var y = d3.scaleLinear()
-    .domain([0, 510 + 5])
+    .domain([0, 105 + 5])
     .range([height, 0]);
 
   var yAxis = svg.append("g")
