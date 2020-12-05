@@ -8,54 +8,81 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
 </head>
 <body>
-	<header>Starbucks Drinks</header>
-	<h1>Comparing Nutritional Values in Starbucks Drinks</h1>
+    
+<!--    main header with starbucks logo-->
+	<header><img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/1200px-Starbucks_Corporation_Logo_2011.svg.png" height="50px" width="50px" style="vertical-align: middle; padding-right: 20px"/>Starbucks Drinks</header>
+    
+<!--    starbucks banner-->
+    <div class='banner'>
+        <h1 id="main-title">Choosing a drink?</h1>
+        <h2>We get it. It's hard to choose a drink. Our data visualizations to help you view and compare drink nutritional information to find that perfect (and healthy) sip.</h2>
+    </div>
+    
+<!--    scatterplot section -->
 	<div style="display: block;">
-		<div id="scatterplot" style="display: inline-flex;">
-			<svg width="700" height="700" style="border: 1px solid #777;" id="chart1">
-			</svg>
-			<form style="display: block; width: max-content;" id="scatterplotside">
-				X-Axis <select id="xaxis" name="xaxis">
-				</select>	
-			</br>
-				Y-Axis <select id="yaxis" name="yaxis">
-				</select>
-			</br>
-				<div id="table">
-					<table>
-						<tr>
-							<th id="Beverage">Beverage</th>
-							<th id="Category">Category</th>
-							<th id="Prep">Prep</th>
-							<th id="XAxesData"></th>
-							<th id="YAxesData"></th>
-						</tr>
-					</table>
-				</div>		  
-			</form>
-		</div>
+        <div class='container-1'>
+            <div style="float:left" >
+                <p class="small-text">Step 1: Look at all your options</p>
+                <h1>Comparing All Starbucks Drinks</h1>
+                <p>There are a lot of drinks to choose from, but you're probably wondering "which drink has the most calories" or "can I afford to drink more calories if my shake has more protein?" Look at all these beverages and decide which few drinks you like based on their nutritional values. Use the <b>dropdown menu</b> below to view and compare nutritional values. Try dragging on the scatter plot to activate a <b>brush tool</b> to reveal a table with specific drink info.</p>
+            </div>
+            <img width="40%" id="img1" style="float:right" src="https://www.starbucks.com/weblx/images/rewards/reward-tiers/025.png"/>
+            <div class="space"></div>
+            <h3 style="clear: both; margin-top: 300px;">Comparing Nutritional Info of All Starbucks Drinks</h3>
+<!--            scatterplot -->
+            <div id="scatterplot" style="display: inline-flex;">
+                <svg width="700" height="700" id="chart1">
+                </svg>
+                <form style="display: block; width: max-content;" id="scatterplotside">
+                    X-Axis <select id="xaxis" name="xaxis">
+                    </select>	
+                </br>
+                    Y-Axis <select id="yaxis" name="yaxis">
+                    </select>
+                </br>
+                    <div id="table">
+                        <table>
+                            <tr>
+                                <th id="Beverage">Beverage</th>
+                                <th id="Category">Category</th>
+                                <th id="Prep">Prep</th>
+                                <th id="XAxesData"></th>
+                                <th id="YAxesData"></th>
+                            </tr>
+                        </table>
+                    </div>		  
+                </form>
+            </div>
+    </div>
+    
+    <div style="float:left; clear:both" >
+        <p class="small-text">Step 2: Choose your favorite drink</p>
+        <h1>Comparing Key Nutritional Info of Different Starbucks Drinks</h1>
+        <p>Now that you've found a few drinks you like, break ties by comparing their kew nutritional info directly. Use the <b>dropdown menu</b> to select which drinks you want to compare on the radar plot.</p>
+    </div>
+    <img width="30%" id="img1" style="float:right; margin-right: 100px;" src="https://content-prod-live.cert.starbucks.com/binary/v2/asset/137-67135.png"/>
+    <div class="space"></div>
+    <h3 style="clear: both; margin-top: 300px;">Comparing Key Nutritional Info of Different Starbucks Drinks</h3>
+    <div class="radarChart" style="display: inline-flex;">
+        <!-- <svg width="700" height="700" style="border: 1px solid #777;"> -->
+        </svg>
+        <form style="display: block;">
+            Drink 1 <select id="drink1" name="drink1">
+            </select>	
+        </br>
+            Drink 2 <select id="drink2" name="drink2">
+            </select>	
+        </br>
+            Drink 3 <select id="drink3" name="drink3">
+            </select>
+        </br>
+            Drink 4 <select id="drink4" name="drink4">
+            </select>		
+        <p>*For ease of comparison, this plot only displays Venti drinks made with nonfat milk.</p>  
+        </form>
 
-		<h1>Comparing Key Nutritional Info of Different Starbucks Drinks</h1>
-		<div class="radarChart" style="display: inline-flex;">
-			<!-- <svg width="700" height="700" style="border: 1px solid #777;"> -->
-			</svg>
-			<form style="display: block;">
-				Drink 1 <select id="drink1" name="drink1">
-				</select>	
-			</br>
-				Drink 2 <select id="drink2" name="drink2">
-				</select>	
-			</br>
-				Drink 3 <select id="drink3" name="drink3">
-				</select>
-			</br>
-				Drink 4 <select id="drink4" name="drink4">
-				</select>		
-			<p>*For ease of comparison, this plot only displays Venti drinks made with nonfat milk.</p>  
-			</form>
-			
-		</div>
-	</div>
+    </div>
+</div>
 
 
 	<!-- <div class="radarChart"></div> -->
@@ -226,6 +253,7 @@
 			});
 			
 		</script>
+</div>
 </body>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="./js/scatterplot.js"></script>
