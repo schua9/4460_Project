@@ -27,7 +27,7 @@ d3.csv('starbucksdrinks.csv', function(csv) {
 // Set the dimensions and margins of the graph
 var margin = {top: 10, right: 30, bottom: 30, left: 60},
     width = 700 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+    height = 500 - margin.top - margin.bottom;
 
 // Append the svg object to the body of the page
 var svg = d3.select("#chart1")

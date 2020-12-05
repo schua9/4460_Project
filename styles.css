@@ -13,7 +13,6 @@ body {
     color: #666;
     font-weight: 300;
     background-color: rgb(212,233,226);
-    /* background: #fafafa url(../images/body-bg.jpg) 0 0 repeat; */
 }
 
 header {
@@ -22,7 +21,6 @@ header {
     font-family: 'Noto Sans JP', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
     font-size: 15px;
     font-weight: 900;
-    /*  border-bottom: solid 1px #275da1;*/
     width: 100%;
     top: 0;
     left: 0;
@@ -90,7 +88,7 @@ h3 {
 }
 
 .banner {
-    padding: 100px 100px 100px 150px;
+    padding: 100px 100px 100px 50px;
     max-width: 100%;
     min-width: 500px;
     background-image: url(https://content-prod-live.cert.starbucks.com/binary/v2/asset/137-67134.png);
